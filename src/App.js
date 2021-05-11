@@ -6,7 +6,7 @@ import Box from '@material-ui/core/Box';
 export default function App() {
 
   return (
-    <Box component="span" m={1}>
+    <Box component="span">
       <AppBar />
       <NavBar />
     </Box>

@@ -3,13 +3,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import ShoeFitSlider from './ShoeFitSlider';
 import Grid from '@material-ui/core/Grid';
 import CardMedia from '@material-ui/core/CardMedia';
 import Tooltip from '@material-ui/core/Tooltip';
 import Skeleton from '@material-ui/lab/Skeleton';
+import AddShoeSizeReview from './AddShoeSizeReview.js';
+import NumberPeopleReviewedText from './NumberPeopleReviewedText.js';
 
 const useStyles = makeStyles({
   root: {
@@ -37,40 +38,49 @@ function renderImage(classes, shoeImage){
     );
   } else {
     return (
-      <Skeleton animation={false} className={classes.skeleton}/>
+      <Skeleton animation={false} variation="rect" className={classes.skeleton}/>
     );
   }
 }
 
 function renderSizesOffText(classes, sizesOff){
-  if(sizesOff === -1){
+  const closest = [-1, -0.5, 0, .5, 1].reduce((a, b) => {
+    return Math.abs(b - sizesOff) < Math.abs(a - sizesOff) ? b : a;
+  });
+  if(closest === -1){
     return (
       <Typography className={classes.sizesOffText} color="textSecondary" variant="body1">
         This shoe runs about 1 size small.
       </Typography>
     );
-  } else if (sizesOff === -.5){
+  } else if (closest === -.5){
     return (
       <Typography className={classes.sizesOffText} color="textSecondary" variant="body1">
         This shoe runs about half a size small.
       </Typography>
     );
-  } else if (sizesOff === 0){
+  } else if (closest === 0){
     return (
       <Typography className={classes.sizesOffText} color="textSecondary" variant="body1">
         This shoe runs about true to size.
       </Typography>
     );
-  } else if (sizesOff === .5){
+  } else if (closest === .5){
     return (
       <Typography className={classes.sizesOffText} color="textSecondary" variant="body1">
         This shoe runs about half a size large.
       </Typography>
     );
-  } else{
+  } else if (closest === 1){
     return (
       <Typography className={classes.sizesOffText} color="textSecondary" variant="body1">
         This shoe runs about 1 size large.
+      </Typography>
+    );
+  } else {
+    return (
+      <Typography className={classes.sizesOffText} color="textSecondary" variant="body1">
+        We do not have enough data for this shoe.
       </Typography>
     );
   }
@@ -79,6 +89,9 @@ function renderSizesOffText(classes, sizesOff){
 function ShoeFitCard(props) {
 
   const classes = useStyles();
+  const sum = props.shoe.ShoeSizeSum;
+  const numReviews = props.shoe.NumberOfShoeSizeReviews;
+  const sizesOff = sum / numReviews;
 
   return (
     <Grid key={props.shoe.ProductName} item>
@@ -93,17 +106,13 @@ function ShoeFitCard(props) {
           <Typography className={classes.pos} color="textSecondary" variant="h6">
             {props.shoe.Brand}
           </Typography>
-          {renderSizesOffText(classes, props.shoe.SizesOff)}
-          <ShoeFitSlider sizesOff={props.shoe.SizesOff}/>
+          {renderSizesOffText(classes, sizesOff)}
+          <ShoeFitSlider isDisabled={true} sizesOff={sizesOff} name={props.shoe.ProductName}/>
         </CardContent>
         <CardActions>
-          <Button size="small" color="primary">Add Rating</Button>
+          <AddShoeSizeReview brand={props.shoe.Brand} name={props.shoe.ProductName} />
         </CardActions>
-        <div style={{ width: '90%', margin: 'auto'}}>
-          <Typography className={classes.sizesOffText} color="textSecondary" variant="caption">
-            {props.shoe.NumberOfSizeReviews} people have reviewed this shoe.
-          </Typography>
-        </div>
+        <NumberPeopleReviewedText numReviews={numReviews}/>
     </Card>
     </Grid>
   );

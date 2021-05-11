@@ -6,9 +6,9 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import ShoeCardGrid from './ShoeCardGrid.js';
-import ShoeDataJSON from './Top_Nike_Products_Deduped.json';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -26,23 +26,6 @@ function TabPanel(props) {
         </Box>
       )}
     </div>
-  );
-}
-
-function SearchBar({ onSearch }) {
-  const onSub = (e) => {
-    onSearch(e.target.value.toLowerCase());
-  };
-
-  return (
-    <TextField
-      id="outlined-basic" label="Search" variant="outlined"
-      onChange={onSub}
-      className="search-input"
-      placeholder="Search"
-      name="search"
-      style={{width: "50%"}}
-    />
   );
 }
 
@@ -70,21 +53,6 @@ const useStyles = makeStyles((theme) => ({
 export default function ScrollableTabsButtonAuto() {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-  const [shoeData, setShoeData] = React.useState([]);
-  const [filter, setFilter] = React.useState("");
-
-  const filteredData = React.useMemo(() => { 
-     if (filter === "") return shoeData;
-     return shoeData.filter(
-       (item) =>
-         item.Brand.toLowerCase().includes(filter) ||
-         item.ProductName.toLowerCase().includes(filter)
-       );
-  }, [shoeData, filter]);
-
-  useEffect(() => {
-    setShoeData(ShoeDataJSON);
-  }, [])
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -102,7 +70,7 @@ export default function ScrollableTabsButtonAuto() {
           scrollButtons="auto"
           aria-label="scrollable auto tabs example">
           <Tab label="Nike" {...a11yProps(0)} />
-          <Tab label="adidas" {...a11yProps(1)} />
+          <Tab label="Adidas" {...a11yProps(1)} />
           <Tab label="New Balance" {...a11yProps(2)} />
           <Tab label="Puma" {...a11yProps(3)} />
           <Tab label="Skechers" {...a11yProps(4)} />
@@ -112,44 +80,32 @@ export default function ScrollableTabsButtonAuto() {
           <Tab label="Saucony" {...a11yProps(8)} />
         </Tabs>
       </AppBar>
-      <Box p={3}>
-        <Grid
-          container
-          spacing={2}
-          direction="row">
-          <Grid item xs={12}>
-            <Grid container justify="center" spacing={2}>
-              <SearchBar onSearch={(searchTerm) => setFilter(searchTerm)}/>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Box>
       <TabPanel value={value} index={0}>
-        <ShoeCardGrid brand="Nike" shoeData={filteredData} />
+        <ShoeCardGrid brand="Nike" />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <ShoeCardGrid brand="adidas" shoeData={filteredData} />
+        <ShoeCardGrid brand="Adidas" />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <ShoeCardGrid brand="New Balance" shoeData={filteredData} />
+        <ShoeCardGrid brand="New Balance" />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <ShoeCardGrid brand="Puma" shoeData={filteredData} />
+        <ShoeCardGrid brand="Puma" />
       </TabPanel>
       <TabPanel value={value} index={4}>
-        <ShoeCardGrid brand="Skechers" shoeData={filteredData} />
+        <ShoeCardGrid brand="Skechers" />
       </TabPanel>
       <TabPanel value={value} index={5}>
-        <ShoeCardGrid brand="Under Armour" shoeData={filteredData} />
+        <ShoeCardGrid brand="Under Armour" />
       </TabPanel>
       <TabPanel value={value} index={6}>
-        <ShoeCardGrid brand="Asics" shoeData={filteredData} />
+        <ShoeCardGrid brand="Asics" />
       </TabPanel>
       <TabPanel value={value} index={7}>
-        <ShoeCardGrid brand="Brooks" shoeData={filteredData} />
+        <ShoeCardGrid brand="Brooks" />
       </TabPanel>
       <TabPanel value={value} index={8}>
-        <ShoeCardGrid brand="Saucony" shoeData={filteredData} />
+        <ShoeCardGrid brand="Saucony" />
       </TabPanel>
     </div>
   );

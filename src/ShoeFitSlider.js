@@ -26,9 +26,16 @@ const marks = [
 
 function ShoeFitSlider(props) {
 
+  const handleSliderChange = (event, value) => {
+    props.handleSliderChange(event, value);
+  };
+
   return (
     <div style={{ width: '90%', margin: 'auto'}}>
       <Slider
+          key={`slider-${props.name}`}
+          onChangeCommitted={handleSliderChange}
+          disabled={props.isDisabled}
           defaultValue={props.sizesOff}
           aria-labelledby="discrete-slider"
           step={null}
