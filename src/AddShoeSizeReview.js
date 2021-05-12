@@ -39,7 +39,7 @@ export default function AddShoeSizeReview(props) {
 
   return (
     <div>
-      <Button size="small" color="primary" onClick={handleClickOpen}>Add Review</Button>
+      <Button size="small" color="primary" onClick={handleClickOpen}>How does this shoe fit you?</Button>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -49,7 +49,7 @@ export default function AddShoeSizeReview(props) {
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             Have you tried on this shoe before?
-            Does it seem to run large, small or is it true to it's size?
+            Does this shoe run big, run small or is it true to it's size on the box?
           </DialogContentText>
         </DialogContent>
         <div style={{ width: '90%', margin: 'auto'}}>
@@ -58,7 +58,7 @@ export default function AddShoeSizeReview(props) {
         <DialogActions>
           <ReCAPTCHA sitekey="6LcNe80aAAAAAAoQns8dtC5ZydEPTgw5NHsQ1is5" onChange={onChange}/>
           <Button onClick={handleClose} color="primary" autoFocus>
-            Submit Review
+            Submit
           </Button>
         </DialogActions>
       </Dialog>

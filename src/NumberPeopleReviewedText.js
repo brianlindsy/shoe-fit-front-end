@@ -7,7 +7,7 @@ function NumberPeopleReviewedText(props) {
   return (
     <div style={{ width: '90%', margin: 'auto'}}>
       <Typography color="textSecondary" variant="caption">
-        {numReviews === undefined ? 0 : numReviews} {numReviews == 1  ? "person has" : "people have"} reviewed this shoe.
+        {numReviews === undefined ? 0 : numReviews} {numReviews === 1  ? "person has" : "people have"} reviewed this shoe.
       </Typography>
     </div>
   );

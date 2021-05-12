@@ -20,7 +20,7 @@ const marks = [
   },
   {
     value: 1,
-    label: 'Large',
+    label: 'Big',
   },
 ];
 

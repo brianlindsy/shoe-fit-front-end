@@ -11,6 +11,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Skeleton from '@material-ui/lab/Skeleton';
 import AddShoeSizeReview from './AddShoeSizeReview.js';
 import NumberPeopleReviewedText from './NumberPeopleReviewedText.js';
+import LazyLoad from 'react-lazyload';
 
 const useStyles = makeStyles({
   root: {
@@ -68,13 +69,13 @@ function renderSizesOffText(classes, sizesOff){
   } else if (closest === .5){
     return (
       <Typography className={classes.sizesOffText} color="textSecondary" variant="body1">
-        This shoe runs about half a size large.
+        This shoe runs about half a size big.
       </Typography>
     );
   } else if (closest === 1){
     return (
       <Typography className={classes.sizesOffText} color="textSecondary" variant="body1">
-        This shoe runs about 1 size large.
+        This shoe runs about 1 size big.
       </Typography>
     );
   } else {
@@ -93,10 +94,16 @@ function ShoeFitCard(props) {
   const numReviews = props.shoe.NumberOfShoeSizeReviews;
   const sizesOff = sum / numReviews;
 
+  const closest = [-1, -0.5, 0, .5, 1].reduce((a, b) => {
+    return Math.abs(b - sizesOff) < Math.abs(a - sizesOff) ? b : a;
+  });
+
   return (
     <Grid key={props.shoe.ProductName} item>
     <Card className={classes.root} >
+      <LazyLoad height={200}>
       {renderImage(classes, props.shoeImage)}
+      </LazyLoad>
         <CardContent>
           <Tooltip title={props.shoe.ProductName} placement="top-start">
             <Typography variant="h6" component="h2" noWrap>
@@ -106,8 +113,8 @@ function ShoeFitCard(props) {
           <Typography className={classes.pos} color="textSecondary" variant="h6">
             {props.shoe.Brand}
           </Typography>
-          {renderSizesOffText(classes, sizesOff)}
-          <ShoeFitSlider isDisabled={true} sizesOff={sizesOff} name={props.shoe.ProductName}/>
+          {renderSizesOffText(classes, closest)}
+          <ShoeFitSlider isDisabled={true} sizesOff={closest} name={props.shoe.ProductName}/>
         </CardContent>
         <CardActions>
           <AddShoeSizeReview brand={props.shoe.Brand} name={props.shoe.ProductName} />

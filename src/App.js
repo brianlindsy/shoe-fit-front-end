@@ -1,14 +1,20 @@
 import React from 'react';
-import AppBar from './AppBar.js';
-import NavBar from './NavBar.js';
-import Box from '@material-ui/core/Box';
+import ShoeFitPage from './ShoeFitPage.js';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom";
 
 export default function App() {
 
   return (
-    <Box component="span">
-      <AppBar />
-      <NavBar />
-    </Box>
+    <Router>
+        <Switch>
+          <Route exact path="/">
+            <ShoeFitPage />
+          </Route>
+        </Switch>
+    </Router>
   );
 }

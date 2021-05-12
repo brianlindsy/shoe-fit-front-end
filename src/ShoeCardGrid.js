@@ -28,7 +28,7 @@ function SearchBar({ onSearch }) {
 
   return (
     <TextField
-      id="outlined-basic" label="Search" variant="outlined"
+      id="outlined-basic" label="Search for a shoe by it's name..." variant="outlined"
       onChange={onSub}
       className="search-input"
       placeholder="Search"
@@ -42,23 +42,27 @@ function ShoeCardGrid(props) {
   const [shoeData, setShoeData] = React.useState([]);
   const [isLoaded, setIsLoaded] = React.useState(false);
   const [filter, setFilter] = React.useState("");
+  const [brand, setBrand] = React.useState(props.brand);
 
-  const filteredData = React.useMemo(() => { 
-     if (filter === "") return shoeData;
-     return shoeData.filter(
-       (item) =>
-         item.Brand.toLowerCase().includes(filter) ||
-         item.ProductName.toLowerCase().includes(filter)
-       );
-  }, [shoeData, filter]);
+  const filteredShoeCompData = React.useMemo(() => { 
+    if (filter === "") return renderBrand(shoeData, brand);;
+    const filtered = shoeData.filter(
+      (item) =>
+        item.Brand.toLowerCase().includes(filter) ||
+        item.ProductName.toLowerCase().includes(filter)
+      );
+
+    return renderBrand(filtered, brand);
+  }, [shoeData, filter, brand]);
 
   useEffect(() => {
-    getData(props.brand)
+    getData(brand)
       .then((result) => {
         setShoeData(result);
+        setBrand(brand);
         setIsLoaded(true);
       });
-  }, []);
+  }, [brand]);
 
   return (
     <div>
@@ -80,7 +84,7 @@ function ShoeCardGrid(props) {
       direction="row">
       <Grid item xs={12}>
         <Grid container justify="center" spacing={2}>
-          {isLoaded ? renderBrand(filteredData, props.brand) : <CircularProgress />}
+          {isLoaded ? filteredShoeCompData : <CircularProgress />}
         </Grid>
       </Grid>
     </Grid>

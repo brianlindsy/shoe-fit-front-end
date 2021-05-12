@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -6,9 +6,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import ShoeCardGrid from './ShoeCardGrid.js';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import GlobalAppBar from './GlobalAppBar.js';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -50,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ScrollableTabsButtonAuto() {
+export default function ShoeFitPage() {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -60,6 +58,8 @@ export default function ScrollableTabsButtonAuto() {
 
   return (
     <div className={classes.root}>
+    <Box component="span">
+    <GlobalAppBar />
       <AppBar position="static" color="default">
         <Tabs
           value={value}
@@ -107,6 +107,7 @@ export default function ScrollableTabsButtonAuto() {
       <TabPanel value={value} index={8}>
         <ShoeCardGrid brand="Saucony" />
       </TabPanel>
+      </Box>
     </div>
   );
 }

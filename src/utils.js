@@ -16,9 +16,6 @@ export async function verifyCaptcha(token) {
 }
 
 export function updateReviews(brand, name, size) {
-    var putBrand = brand;
-    var putName = name;
-    var putSize = size;
     const data = { Brand: brand,
                     ProductName: name,
                     size: Number(size)
